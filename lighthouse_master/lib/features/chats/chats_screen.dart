@@ -60,14 +60,22 @@ class ChatsScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // Unified Theme Colors
-                _buildQuickAction('GROUP CHAT', '💬', AppTheme.artDecoTeal, AppTheme.artDecoTealLight), 
-                _buildQuickAction('ADD CONTACTS', '👤', AppTheme.artDecoGold, AppTheme.artDecoGoldLight),
-                _buildQuickAction('WALLET', '💰', AppTheme.artDecoTeal, AppTheme.artDecoTeal),
+                // Unified Theme Colors with Image Backgrounds
+                _buildQuickAction(
+                  'GROUP CHAT', 
+                  Icons.forum_rounded, 
+                  'assets/images/chat_card_bg.png'
+                ), 
+                _buildQuickAction(
+                  'ADD CONTACTS', 
+                  Icons.person_add_rounded, 
+                  'assets/images/contact_card_bg.png'
+                ),
               ],
             ),
           ),
           Divider(height: 1, color: Colors.black.withValues(alpha: 0.1)),
+          // ... rest of list ...
           // Chat List
           Expanded(
             child: ListView(
@@ -108,25 +116,49 @@ class ChatsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickAction(String label, String emoji, Color c1, Color c2) {
-    return Column(
-      children: [
-        Container(
-          width: 48,
-          height: 48,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [c1, c2]),
-            borderRadius: BorderRadius.circular(12),
+  Widget _buildQuickAction(String label, IconData icon, String imagePath) {
+    return InkWell(
+      onTap: () {},
+      child: Column(
+        children: [
+          Container(
+            width: 56, // Slightly larger for better image visibility
+            height: 56,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Container( // Scrim + Icon
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.black.withValues(alpha: 0.1), Colors.black.withValues(alpha: 0.4)],
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Icon(icon, color: Colors.white, size: 24),
+            ),
           ),
-          child: Text(emoji, style: const TextStyle(fontSize: 24)),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.black54),
-        ),
-      ],
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.black54),
+          ),
+        ],
+      ),
     );
   }
 
