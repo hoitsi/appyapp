@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
 import '../../presentation/widgets/glass_container.dart';
+import '../../presentation/widgets/unified_search_bar.dart';
 
 class ContactsScreen extends StatelessWidget {
   const ContactsScreen({super.key});
@@ -10,7 +11,7 @@ class ContactsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: const Text('Contacts', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
+        title: Text('Contacts', style: TextStyle(color: Theme.of(context).textTheme.headlineMedium?.color, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -19,20 +20,9 @@ class ContactsScreen extends StatelessWidget {
           // Search Bar
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: GlassContainer(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              borderRadius: BorderRadius.circular(10),
-              showShadow: false,
-              child: const SizedBox(
-                height: 40,
-                child: Row(
-                  children: [
-                    Icon(Icons.search, color: Colors.black54),
-                    SizedBox(width: 8),
-                    Text('Search', style: TextStyle(color: Colors.black54)),
-                  ],
-                ),
-              ),
+            child: UnifiedSearchBar(
+              hintText: 'Search contacts',
+              showFeatureIndicators: true, // Exact match to Home
             ),
           ),
           
@@ -41,9 +31,9 @@ class ContactsScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Expanded(child: _buildActionButton('Add Friend', Icons.person_add, AppTheme.artDecoGold)), // Gold CTA
+                Expanded(child: _buildActionButton(context, 'Add Friend', Icons.person_add, AppTheme.artDecoGold)), // Gold CTA
                 const SizedBox(width: 12),
-                Expanded(child: _buildActionButton('QR Code', Icons.qr_code, AppTheme.artDecoTeal)), // Teal Secondary
+                Expanded(child: _buildActionButton(context, 'QR Code', Icons.qr_code, AppTheme.artDecoTeal)), // Teal Secondary
               ],
             ),
           ),
@@ -70,9 +60,9 @@ class ContactsScreen extends StatelessWidget {
                   ),
                   child: const Icon(Icons.group, color: Colors.white),
                 ),
-                title: const Text('Group Chats', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black87)),
-                subtitle: const Text('5 groups', style: TextStyle(fontSize: 12, color: Colors.black54)),
-                trailing: const Icon(Icons.chevron_right, color: Colors.black54),
+                title: Text('Group Chats', style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.bodyLarge?.color)),
+                subtitle: Text('5 groups', style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyMedium?.color)),
+                trailing: Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color),
               ),
             ),
           ),
@@ -83,18 +73,18 @@ class ContactsScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             color: Colors.transparent, 
             width: double.infinity,
-            child: const Text('ALL CONTACTS', style: TextStyle(color: Colors.black54, fontSize: 12, fontWeight: FontWeight.bold)),
+            child: Text('ALL CONTACTS', style: TextStyle(color: Theme.of(context).textTheme.labelSmall?.color, fontSize: 12, fontWeight: FontWeight.bold)),
           ),
           
           Expanded(
             child: ListView(
               children: [
-                _buildContactItem('Sarah Chen', 'Product Designer'),
-                _buildContactItem('Michael Park', 'Software Engineer'),
-                _buildContactItem('Emily Watson', 'Marketing Manager'),
-                _buildContactItem('James Liu', 'Creative Director'),
-                _buildContactItem('Alex Kim', 'UX Researcher'),
-                _buildContactItem('Lisa Zhang', 'Data Analyst'),
+                 _buildContactItem(context, 'Sarah Chen', 'Product Designer'),
+                 _buildContactItem(context, 'Michael Park', 'Software Engineer'),
+                 _buildContactItem(context, 'Emily Watson', 'Marketing Manager'),
+                 _buildContactItem(context, 'James Liu', 'Creative Director'),
+                 _buildContactItem(context, 'Alex Kim', 'UX Researcher'),
+                 _buildContactItem(context, 'Lisa Zhang', 'Data Analyst'),
               ],
             ),
           ),
@@ -103,7 +93,7 @@ class ContactsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton(String label, IconData icon, Color color) {
+  Widget _buildActionButton(BuildContext context, String label, IconData icon, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
@@ -121,7 +111,7 @@ class ContactsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildContactItem(String name, String status) {
+  Widget _buildContactItem(BuildContext context, String name, String status) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: GlassContainer(
@@ -143,8 +133,8 @@ class ContactsScreen extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black87)),
-                Text(status, style: const TextStyle(color: Colors.black54, fontSize: 13)),
+                Text(name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Theme.of(context).textTheme.bodyLarge?.color)),
+                Text(status, style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color, fontSize: 13)),
               ],
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import '../../presentation/widgets/unified_search_bar.dart';
 
 class DiscoverScreen extends StatelessWidget {
   const DiscoverScreen({super.key});
@@ -9,7 +10,7 @@ class DiscoverScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: const Text('Discover', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
+        title: Text('Discover', style: TextStyle(color: Theme.of(context).textTheme.headlineMedium?.color, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -19,29 +20,40 @@ class DiscoverScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          _buildSectionHeader('MEDIA'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: UnifiedSearchBar(
+              hintText: 'Search Discover',
+              showFeatureIndicators: true, // Exact match to Home
+            ),
+          ),
+          _buildSectionHeader(context, 'MEDIA'),
           _buildListItem(
+            context: context,
             icon: Icons.camera_alt,
             label: 'Moments',
             iconColor: AppTheme.brandPrimary,
             badgeCount: 4,
           ),
           
-          _buildSectionHeader('ADDITIONAL OPTIONS'),
+          _buildSectionHeader(context, 'ADDITIONAL OPTIONS'),
           _buildListItem(
+            context: context,
             icon: Icons.qr_code_scanner,
             label: 'Scan with QR code',
             iconColor: AppTheme.brandPrimary,
           ),
-          Divider(height: 1, indent: 56, color: Colors.black.withValues(alpha: 0.1)),
+          Divider(height: 1, indent: 56, color: Theme.of(context).dividerColor),
           _buildListItem(
+            context: context,
             icon: Icons.phone_iphone, // Shake approx
             label: 'Shaking',
             iconColor: Colors.blue,
           ),
           
-          _buildSectionHeader('LOCATION'),
+          _buildSectionHeader(context, 'LOCATION'),
           _buildListItem(
+            context: context,
             icon: Icons.location_on,
             label: 'Users nearby',
             iconColor: Colors.blueAccent,
@@ -51,13 +63,13 @@ class DiscoverScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(String title) {
+  Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
       child: Text(
         title,
-        style: const TextStyle(
-          color: Colors.black54,
+        style: TextStyle(
+          color: Theme.of(context).textTheme.labelSmall?.color,
           fontSize: 12,
           fontWeight: FontWeight.bold,
         ),
@@ -66,6 +78,7 @@ class DiscoverScreen extends StatelessWidget {
   }
 
   Widget _buildListItem({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required Color iconColor,
@@ -79,7 +92,7 @@ class DiscoverScreen extends StatelessWidget {
           Icon(icon, color: iconColor, size: 24),
           const SizedBox(width: 16),
           Expanded(
-            child: Text(label, style: const TextStyle(fontSize: 16, color: Colors.black87)),
+            child: Text(label, style: TextStyle(fontSize: 16, color: Theme.of(context).textTheme.bodyLarge?.color)),
           ),
           if (badgeCount != null) ...[
             Container(
@@ -95,7 +108,7 @@ class DiscoverScreen extends StatelessWidget {
             ),
             const SizedBox(width: 8),
           ],
-          const Icon(Icons.chevron_right, color: Colors.black54),
+          Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color),
         ],
       ),
     );

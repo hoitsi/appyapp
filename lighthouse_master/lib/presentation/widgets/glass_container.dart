@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../../theme/app_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class GlassContainer extends StatelessWidget {
   final Widget child;
@@ -133,6 +134,16 @@ class GlassBottomNavBar extends StatelessWidget {
       borderRadius: BorderRadius.circular(30),
       // Higher opacity for heavy usage area
       opacity: 0.8,
+      borderGradient: Theme.of(context).brightness == Brightness.dark
+        ? LinearGradient(
+            colors: [
+              Colors.white.withValues(alpha: 0.25),
+              Colors.white.withValues(alpha: 0.10),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          )
+        : null,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: items.asMap().entries.map((entry) {
@@ -159,7 +170,9 @@ class GlassBottomNavBar extends StatelessWidget {
                   Icon(
                     (item.icon as Icon).icon,
                     // Use Teal for Active/Inactive (Active: Gold, Inactive: Teal/Grey)
-                    color: isSelected ? AppTheme.artDecoGold : AppTheme.artDecoTeal.withValues(alpha: 0.7),
+                    color: isSelected 
+                      ? (Theme.of(context).brightness == Brightness.dark ? AppTheme.artDecoGold : AppTheme.artDecoGold)
+                      : (Theme.of(context).brightness == Brightness.dark ? Colors.white70 : AppTheme.artDecoTeal.withValues(alpha: 0.7)),
                     size: 24,
                   ),
                   const SizedBox(height: 4),
@@ -168,8 +181,10 @@ class GlassBottomNavBar extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                      color: isSelected ? AppTheme.artDecoGold : AppTheme.artDecoTeal.withValues(alpha: 0.7),
-                      fontFamily: 'Playfair Display', // Art Deco font
+                      color: isSelected 
+                        ? AppTheme.artDecoGold 
+                        : (Theme.of(context).brightness == Brightness.dark ? Colors.white70 : AppTheme.artDecoTeal.withValues(alpha: 0.7)),
+                      fontFamily: GoogleFonts.manrope().fontFamily, // Manrope
                     ),
                   ),
                 ],

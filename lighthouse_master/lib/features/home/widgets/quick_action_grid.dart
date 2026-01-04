@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../theme/app_theme.dart';
+import '../../../../presentation/widgets/glass_container.dart';
 
 class QuickActionGrid extends StatelessWidget {
   const QuickActionGrid({super.key});
@@ -80,7 +81,7 @@ class QuickActionGrid extends StatelessWidget {
           child: Text(
             'QUICK ACCESS',
             style: TextStyle(
-              color: Colors.black.withValues(alpha: 0.7),
+              color: Theme.of(context).textTheme.labelSmall?.color,
               fontSize: 12,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.0,
@@ -88,19 +89,40 @@ class QuickActionGrid extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4, 
-            childAspectRatio: 0.8,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
+        GlassContainer(
+          borderRadius: BorderRadius.circular(24),
+          padding: const EdgeInsets.all(16),
+          borderGradient: Theme.of(context).brightness == Brightness.dark
+            ? LinearGradient(
+                colors: [
+                  Colors.white.withValues(alpha: 0.30), // Increased from 0.15
+                  Colors.white.withValues(alpha: 0.10), // Increased from 0.05
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : LinearGradient(
+                colors: [
+                  AppTheme.brandPrimary.withValues(alpha: 0.5),
+                  Colors.teal.withValues(alpha: 0.3),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4, 
+              childAspectRatio: 0.8,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+            ),
+            itemCount: _items.length,
+            itemBuilder: (context, index) {
+              return _buildServiceCard(context, _items[index]);
+            },
           ),
-          itemCount: _items.length,
-          itemBuilder: (context, index) {
-            return _buildServiceCard(context, _items[index]);
-          },
         ),
       ],
     );
@@ -140,7 +162,7 @@ class QuickActionGrid extends StatelessWidget {
              );
           },
           borderRadius: BorderRadius.circular(12),
-          child: hasImage ? _buildContentWithImage(item) : _buildStandardContent(item),
+          child: hasImage ? _buildContentWithImage(item) : _buildStandardContent(context, item),
         ),
       ),
     );
@@ -178,7 +200,7 @@ class QuickActionGrid extends StatelessWidget {
     );
   }
 
-  Widget _buildStandardContent(QuickActionItem item) {
+  Widget _buildStandardContent(BuildContext context, QuickActionItem item) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -202,8 +224,8 @@ class QuickActionGrid extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           item.label,
-          style: const TextStyle(
-            color: Colors.black87,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 18, // 50% Bigger (12 -> 18)
             fontWeight: FontWeight.w700, // Bolder
           ),

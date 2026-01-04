@@ -10,9 +10,11 @@ class AmbientBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // 1. Base Dark Background (Radial Art Deco)
+        // 1. Base Dark/Light Background
         Container(
-          decoration: AppTheme.premiumBackground,
+          decoration: Theme.of(context).brightness == Brightness.dark 
+              ? AppTheme.premiumBackgroundDark 
+              : AppTheme.premiumBackground,
         ),
         
         // 2. Subtle Animated Mesh/Grain (Optional, keeping simple for now)

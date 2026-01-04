@@ -12,9 +12,7 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userState = ref.watch(userProvider);
 
-    return Theme(
-      data: AppTheme.glassTheme,
-      child: Scaffold(
+    return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           title: const Text('Settings'),
@@ -24,7 +22,7 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
         body: Container(
-          decoration: AppTheme.premiumBackground,
+          decoration: Theme.of(context).brightness == Brightness.dark ? AppTheme.premiumBackgroundDark : AppTheme.premiumBackground,
           child: SafeArea(
             child: ListView(
               padding: const EdgeInsets.all(20),
@@ -63,7 +61,7 @@ class SettingsScreen extends ConsumerWidget {
                               Text(
                                 'Upgrade to Pro',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.onSecondary,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -72,7 +70,7 @@ class SettingsScreen extends ConsumerWidget {
                               Text(
                                 'Unlock all features',
                                 style: TextStyle(
-                                  color: Colors.white60,
+                                  color: Theme.of(context).colorScheme.onSecondary.withValues(alpha: 0.7),
                                   fontSize: 14,
                                 ),
                               ),
@@ -167,7 +165,7 @@ class SettingsScreen extends ConsumerWidget {
       child: Text(
         title.toUpperCase(),
         style: TextStyle(
-          color: Colors.white.withValues(alpha: 0.5),
+          color: Theme.of(context).textTheme.labelSmall?.color,
           fontSize: 12,
           fontWeight: FontWeight.w600,
           letterSpacing: 1.2,
@@ -189,13 +187,13 @@ class SettingsScreen extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Row(
         children: [
-          Icon(icon, color: Colors.white70, size: 22),
+          Icon(icon, color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.7), size: 22),
           const SizedBox(width: 14),
           Expanded(
             child: Text(
               title,
               style: const TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
                 fontSize: 16,
               ),
             ),
@@ -204,7 +202,7 @@ class SettingsScreen extends ConsumerWidget {
             Text(
               subtitle,
               style: TextStyle(
-                color: Colors.white.withValues(alpha: 0.4),
+                color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
                 fontSize: 14,
               ),
             ),
@@ -212,7 +210,7 @@ class SettingsScreen extends ConsumerWidget {
             const SizedBox(width: 8),
             Icon(
               Icons.chevron_right,
-              color: Colors.white.withValues(alpha: 0.3),
+              color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.3),
               size: 20,
             ),
           ],

@@ -47,7 +47,7 @@ class AppResultCard extends StatelessWidget {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: AppTheme.textPrimary.withValues(alpha: 0.05),
+                color: AppTheme.artDecoTeal.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppTheme.textSecondary.withValues(alpha: 0.1), width: 0.5),
               ),
@@ -71,7 +71,7 @@ class AppResultCard extends StatelessWidget {
                 children: [
                   Text(
                     appData.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppTheme.textPrimary),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: AppTheme.artDecoTeal),
                   ),
                   const SizedBox(height: 4),
                   Text(
