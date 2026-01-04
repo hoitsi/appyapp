@@ -42,8 +42,15 @@ Navigate to the app directory and run:
 ```bash
 cd lighthouse_master
 flutter pub get
-flutter run -d chrome # Or 'linux', 'android', etc.
+flutter run -d chrome # Web
+flutter run -d linux  # Linux Host
+flutter run -d android # Android (Requires Emulator/Device)
 ```
+
+**Android Studio Setup:**
+1. Open Android Studio.
+2. Select "Open Project" and choose `lighthouse_master/android`.
+3. Let Gradle sync, then press Run ▶️ to launch on an emulator.
 
 ### 4. Running the Backend (API)
 Navigate to the backend directory and run:
