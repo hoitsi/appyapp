@@ -76,15 +76,15 @@ class ProfileScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: GlassContainer(
-                color: Colors.red.withValues(alpha: 0.1),
+                color: Theme.of(context).colorScheme.error.withValues(alpha: 0.8), // Solid Red (Glassy)
                 onTap: () {},
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.logout, size: 20, color: Colors.redAccent),
+                    Icon(Icons.logout, size: 20, color: Colors.white), // White Icon
                     SizedBox(width: 8),
-                    Text('Log Out', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.redAccent)),
+                    Text('Log Out', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)), // White Text
                   ],
                 ),
               ),

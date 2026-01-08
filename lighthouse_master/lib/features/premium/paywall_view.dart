@@ -36,7 +36,7 @@ class PaywallView extends ConsumerWidget {
               const Icon(Icons.diamond_outlined, size: 80, color: Colors.amber),
               const SizedBox(height: 16),
               const Text(
-                'Lighthouse Pro',
+                "'appyapp Pro",
                 style: TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
@@ -80,7 +80,7 @@ class PaywallView extends ConsumerWidget {
                             await ref.read(userProvider.notifier).upgradeToPro();
                             if (context.mounted) {
                                ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Welcome to Lighthouse Pro!')),
+                                const SnackBar(content: Text("Welcome to 'appyapp Pro!")),
                               );
                               Navigator.pop(context);
                             }

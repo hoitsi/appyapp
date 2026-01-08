@@ -8,13 +8,13 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     const ProviderScope(
-      child: LighthouseApp(),
+      child: AppyApp(),
     ),
   );
 }
 
-class LighthouseApp extends ConsumerWidget {
-  const LighthouseApp({super.key});
+class AppyApp extends ConsumerWidget {
+  const AppyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

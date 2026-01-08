@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'theme/app_theme.dart';
 import 'presentation/widgets/ambient_background.dart';
 import 'presentation/widgets/glass_container.dart';
 import 'presentation/providers/theme_provider.dart';

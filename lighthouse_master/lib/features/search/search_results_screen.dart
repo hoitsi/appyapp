@@ -4,6 +4,7 @@ import '../../presentation/widgets/glass_container.dart';
 import '../../presentation/widgets/ambient_background.dart'; // Added Import
 import '../../presentation/providers/search_provider.dart';
 import '../../domain/entities/app_model.dart';
+import '../../domain/entities/search_result_item.dart';
 import 'app_result_card.dart';
 import '../../theme/app_theme.dart';
 
@@ -81,6 +82,8 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
           
           if (item is AppModel) {
             return AppResultCard(appData: item);
+          } else if (item is SearchResultItem) {
+            return _buildExternalResultCard(context, item);
           } else if (item is SponsoredAd) {
             return _buildAdCard();
           }
@@ -89,6 +92,122 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
       );
     }
     return const SizedBox.shrink();
+  }
+
+  Widget _buildExternalResultCard(BuildContext context, SearchResultItem item) {
+    // Special Style for AI Generation
+    if (item.type == SearchResultType.aiGeneration) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.all(2), // Gradient Border width
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: const LinearGradient(
+            colors: [Colors.purpleAccent, Colors.blueAccent],
+          ),
+          boxShadow: [
+             BoxShadow(color: Colors.purple.withValues(alpha: 0.3), blurRadius: 12, spreadRadius: 1),
+          ],
+        ),
+        child: GlassContainer(
+          borderRadius: BorderRadius.circular(14), // Slightly smaller
+          padding: const EdgeInsets.all(16),
+          color: Colors.black.withValues(alpha: 0.4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.auto_awesome, color: Colors.white, size: 24),
+                  const SizedBox(width: 12),
+                  const Text("'appyapp AI", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(color: Colors.purple.withValues(alpha: 0.3), borderRadius: BorderRadius.circular(8)),
+                    child: const Text("BETA", style: TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(item.title, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 4),
+              Text(item.description, style: const TextStyle(color: Colors.white70)),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () {
+                  // TODO: Trigger Generation Flow
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("AI Generation triggers... (Coming Soon)")));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.purple,
+                  minimumSize: const Size(double.infinity, 48),
+                ),
+                icon: const Icon(Icons.bolt), 
+                label: const Text("GENERATE NOW"),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Standard Styles for Web / External App
+    final isWeb = item.type == SearchResultType.web;
+    final icon = isWeb ? Icons.public : Icons.download_rounded;
+    final color = isWeb ? Colors.blueAccent : Colors.tealAccent;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: GlassContainer(
+        borderRadius: BorderRadius.circular(16),
+        padding: const EdgeInsets.all(16),
+        borderGradient: LinearGradient(
+          colors: [
+            color.withValues(alpha: 0.3),
+            color.withValues(alpha: 0.05),
+          ],
+        ),
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: color.withValues(alpha: 0.1),
+              child: Icon(icon, color: color),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.title, 
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Theme.of(context).textTheme.bodyLarge?.color),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    item.description, 
+                    style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyMedium?.color),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(isWeb ? Icons.link : Icons.shop, size: 12, color: color.withValues(alpha: 0.7)),
+                      const SizedBox(width: 4),
+                      Text(item.source, style: TextStyle(fontSize: 10, color: color.withValues(alpha: 0.7), fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+             Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.5)),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildAdCard() {
@@ -106,18 +225,18 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Sponsored Recommendation", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87)),
-                  Text("Check out our partner tools.", style: TextStyle(fontSize: 12, color: Colors.black54)),
+                  Text("Sponsored Recommendation", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)), // Fixed text color
+                  Text("Check out our partner tools.", style: TextStyle(fontSize: 12, color: Colors.white70)),
                 ],
               ),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black54),
+                border: Border.all(color: Colors.white30),
                 borderRadius: BorderRadius.circular(4)
               ),
-              child: const Text("Ad", style: TextStyle(fontSize: 10, color: Colors.black87)),
+              child: const Text("Ad", style: TextStyle(fontSize: 10, color: Colors.white)),
             )
           ],
         ),

@@ -33,10 +33,19 @@ class GlassContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double blurValue = blur ?? 20.0; // Frosted glass
-    final double opacityValue = opacity ?? 0.6; // Increased opacity for Light Mode visibility
-    final Color baseColor = color ?? Colors.white;
-    final BorderRadius borderR = borderRadius ?? BorderRadius.circular(4); // Sharp 4px Art Deco radius
+    // Glassmorphism Spec: Blur 20px
+    final double blurValue = blur ?? 20.0; 
+    
+    // Glassmorphism Spec: Opacity 0.6 - 0.8
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final double defaultOpacity = isDark ? 0.60 : 0.70;
+    final double opacityValue = opacity ?? defaultOpacity;
+    
+    final Color baseColor = color ?? (isDark ? AppTheme.darkSurface : AppTheme.lightSurface);
+    final BorderRadius borderR = borderRadius ?? BorderRadius.circular(16); // Soft 16px corners
+
+    // Glassmorphism Spec: 1px Border
+    final Color borderColor = isDark ? AppTheme.darkBorder : AppTheme.lightBorder;
 
     Widget container = Container(
       margin: margin,
@@ -44,8 +53,8 @@ class GlassContainer extends StatelessWidget {
         borderRadius: borderR,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1), // Much lighter shadow
-            blurRadius: 20,
+            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05), // Softer shadow for light mode
+            blurRadius: 24,
             offset: const Offset(0, 8),
           ),
         ],
@@ -54,7 +63,7 @@ class GlassContainer extends StatelessWidget {
         borderRadius: borderR,
         child: BackdropFilter(
           filter: ImageFilter.blur(
-            sigmaX: blurValue / 2,
+            sigmaX: blurValue / 2, // Flutter sigma is ~ half of CSS blur radius
             sigmaY: blurValue / 2,
           ),
           child: Container(
@@ -62,39 +71,12 @@ class GlassContainer extends StatelessWidget {
             decoration: BoxDecoration(
               color: baseColor.withValues(alpha: opacityValue),
               borderRadius: borderR,
+              // Glassmorphism Spec: 1px stylized border
               border: (showBorder && borderGradient == null) ? Border.all(
-                color: AppTheme.artDecoGold.withValues(alpha: 0.3), // Gold borders
+                color: borderColor.withValues(alpha: 0.5), 
                 width: 1.0,
-              ) : (showBorder && borderGradient != null) ? Border.all(color: Colors.transparent) : null, // Handle gradient border differently if needed, or just standard border
-              // Actually, Flutter's BoxDecoration doesn't support 'border' property with Gradient directly. 
-              // We usually simulate it or use 'border' with color. 
-              // But 'decoration: BoxDecoration(border: ...)' takes a Border object.
-              // To support gradient border, we often need a separate wrapper or Painter.
-              // For simplicity, let's assume standard usage or just omit 'border' if gradient is meant for background?
-              // The user code passed 'borderGradient' to GlassContainer constructor, likely intended to be used as BORDER or maybe BACKGROUND gradient?
-              // The user code in HomeScreen passed:
-              // borderGradient: LinearGradient(...)
-              // Let's assume it was meant to be the 'gradient' of the container itself (background gradient overlay)?
-              // But the name is 'borderGradient'.
-              // Wait, I am the one who wrote the HomeScreen code.
-              // I passed 'borderGradient' to GlassContainer.
-              // Standard GlassContainer doesn't have it.
-              // If I want a gradient BORDER, it's complex.
-              // If I want a gradient BACKGROUND, I should use 'color' or new 'gradient' property.
-              // In HomeScreen, I likely meant 'gradient' for the container's background tint.
-              // Because I used keys like 'colors' inside LinearGradient.
-              // Let's rename parameter to 'gradient' in GlassContainer to match standard Flutter container usage?
-              // Or if I really meant Border Gradient, I need a CustomPainter.
-              // Let's change GlassContainer to accept 'gradient' which overrides the default white gradient.
-              gradient: borderGradient ?? LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white.withValues(alpha: 0.7),
-                  Colors.white.withValues(alpha: 0.3),
-                ],
-                stops: const [0.0, 1.0],
-              ),
+              ) : (showBorder && borderGradient != null) ? Border.all(color: Colors.transparent) : null,
+              gradient: borderGradient, // Optional overlay gradient
             ),
             child: child,
           ),
@@ -168,7 +150,7 @@ class GlassBottomNavBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    (item.icon as Icon).icon,
+                    (item.icon is Icon) ? (item.icon as Icon).icon : Icons.circle,
                     // Use Teal for Active/Inactive (Active: Gold, Inactive: Teal/Grey)
                     color: isSelected 
                       ? (Theme.of(context).brightness == Brightness.dark ? AppTheme.artDecoGold : AppTheme.artDecoGold)
@@ -184,7 +166,7 @@ class GlassBottomNavBar extends StatelessWidget {
                       color: isSelected 
                         ? AppTheme.artDecoGold 
                         : (Theme.of(context).brightness == Brightness.dark ? Colors.white70 : AppTheme.artDecoTeal.withValues(alpha: 0.7)),
-                      fontFamily: GoogleFonts.manrope().fontFamily, // Manrope
+                      fontFamily: GoogleFonts.manrope().fontFamily ?? 'Manrope',
                     ),
                   ),
                 ],

@@ -15,8 +15,8 @@ class AppRepository {
 
   // Linux/Android localhost handling
   AppRepository() {
-    // If running on Android Emulator, switch to 10.0.2.2
-    // For now we assume Linux Desktop environment (127.0.0.1) as per task.
+    // Platform check would go here. For now, assuming Emulator usage based on error.
+    _dio.options.baseUrl = 'http://10.0.2.2:8000'; 
   }
 
   Future<List<AppModel>> searchApps(String query) async {

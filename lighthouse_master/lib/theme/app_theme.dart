@@ -1,216 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class AppTheme {
-  // Art Deco Palette
-  static const Color artDecoGold = Color(0xFFD4AF37);
-  static const Color artDecoGoldLight = Color(0xFFFAD5A5);
-  static const Color artDecoTeal = Color(0xFF0F4C5C); // Deep Teal
-  static const Color artDecoTealLight = Color(0xFF1A7C88); // Lighter Teal
-  static const Color artDecoCream = Color(0xFFF8EDEB);
-  static const Color artDecoBlack = Colors.black;
+  // --- Modern Glassmorphism Palette ---
+  
+  // Dark Mode colors
+  static const Color darkBackground = Color(0xFF0F172A); // Deep Night Blue
+  static const Color darkSurface = Color(0xFF1E293B);    // Glass Card Surface
+  static const Color darkPrimary = Color(0xFF818CF8);    // Indigo/Violet (WCAG accessible)
+  static const Color darkSecondary = Color(0xFF2DD4BF);  // Turquoise
+  static const Color darkTextPrimary = Color(0xFFF8FAFC);
+  static const Color darkTextSecondary = Color(0xFF94A3B8);
+  static const Color darkBorder = Color(0xFF334155);     // Glass Card Border
 
-  // Legacy Aliases (Mapped to Art Deco)
-  static const Color primaryBlue = artDecoGold; 
-  static const Color trustGreen = artDecoTealLight;
-  static const Color riskRed = Color(0xFFCF6679);
-  static const Color communityAmber = artDecoGoldLight;
-  static const Color textSecondary = Color(0xB3F8EDEB); // Cream with opacity ~70%
-  static const Color accentBlue = artDecoTealLight;
-  static const Color warningOrange = artDecoGoldLight;
+  // Light Mode colors
+  static const Color lightBackground = Color(0xFFF1F5F9); // Cool White
+  static const Color lightSurface = Color(0xFFFFFFFF);
+  static const Color lightPrimary = Color(0xFF4F46E5);    // Indigo
+  static const Color lightSecondary = Color(0xFF0D9488);  // Teal/Turquoise
+  static const Color lightTextPrimary = Color(0xFF0F172A);
+  static const Color lightTextSecondary = Color(0xFF475569);
+  static const Color lightBorder = Color(0xFFE2E8F0);
 
+  // System Colors
+  static const Color success = Color(0xFF22C55E);
+  static const Color error = Color(0xFFEF4444);
+  static const Color warning = Color(0xFFF59E0B);
 
-  // Background: Cream -> White (Linear) - Light Art Deco
+  // --- Legacy Aliases (to prevent breakage) ---
+  // Mapping old Art Deco names to new Palette for backward compatibility
+  static const Color artDecoGold = lightPrimary; // Use Primary as Gold replacement
+  static const Color artDecoGoldLight = lightSecondary;
+  static const Color artDecoTeal = darkBackground;
+  static const Color artDecoTealLight = darkSecondary;
+  static const Color artDecoCream = lightBackground;
+  static const Color brandPrimary = lightPrimary;
+  
+  // --- Legacy Aliases (Maintained for compatibility) ---
+  static const Color primaryBlue = lightPrimary; 
+  static const Color trustGreen = success;
+  static const Color riskRed = error;
+  static const Color communityAmber = warning;
+  static const Color textSecondary = lightTextSecondary;
+  static const Color accentBlue = lightSecondary;
+  
+  // ---------------------------------------------
 
+  // Background: Dark Mode (Solid Deep Blue)
+  static BoxDecoration get premiumBackgroundDark {
+    return const BoxDecoration(
+      color: darkBackground,
+    );
+  }
 
-  // Background: Cream -> White (Linear) - Light Art Deco
+  // Background: Light Mode (Solid Cool White)
   static BoxDecoration get premiumBackground {
     return const BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Colors.white,
-          artDecoCream,
-        ],
-      ),
+      color: lightBackground,
     );
   }
 
-  // Background: Dark -> Black (Linear) - Dark Art Deco
-  static BoxDecoration get premiumBackgroundDark {
-    return BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          const Color(0xFF1E1E1E), // Dark Grey
-          Colors.black,
-        ],
-      ),
-    );
-  }
-
-  // Glass Theme (Light Art Deco + Glassmorphism)
+  // Glass Theme - Light
   static ThemeData get glassTheme {
     return ThemeData(
-      brightness: Brightness.light, // Light Mode
-      primaryColor: artDecoGold,
+      brightness: Brightness.light,
+      primaryColor: lightPrimary,
       scaffoldBackgroundColor: Colors.transparent,
       useMaterial3: true,
       
-      colorScheme: const ColorScheme.light( // Light Scheme
-        primary: artDecoGold, // CTA / Primary Action
-        onPrimary: Colors.black, // Text on Gold
-        secondary: artDecoTeal, // Secondary / Accent
+      colorScheme: const ColorScheme.light(
+        primary: lightPrimary,
+        onPrimary: Colors.white,
+        secondary: lightSecondary,
         onSecondary: Colors.white,
-        tertiary: artDecoTealLight,
-        error: Color(0xFFCF6679),
         surface: Colors.transparent,
+        error: error,
+        outline: lightBorder, // For borders
       ),
       
       textTheme: TextTheme(
         displayLarge: GoogleFonts.manrope(
           fontSize: 48,
-          fontWeight: FontWeight.w600, // Semibold
-          color: artDecoTeal, // Dark Teal Text
+          fontWeight: FontWeight.w600,
+          color: lightTextPrimary,
           letterSpacing: -1.0,
         ),
         displayMedium: GoogleFonts.manrope(
           fontSize: 32,
-          fontWeight: FontWeight.w600, // Semibold
-          color: artDecoTeal, // Dark Teal Text
-        ),
-        headlineMedium: GoogleFonts.manrope(
-          fontSize: 22, // Updated
-          fontWeight: FontWeight.w600, // Semibold
-          color: artDecoTeal, // Dark Teal Text
-        ),
-        bodyLarge: GoogleFonts.lato(
-          fontSize: 16,
-          fontWeight: FontWeight.w400, // Regular
-          color: Colors.black87, // Readable Black
-        ),
-        bodyMedium: GoogleFonts.lato(
-          fontSize: 15, // Updated
-          fontWeight: FontWeight.w400, // Regular
-          color: Colors.black87, // Readable Black
-        ),
-        labelSmall: GoogleFonts.lato(
-          fontSize: 12, // Updated
-          fontWeight: FontWeight.w400, // Regular
-          color: artDecoTealLight,
-        ),
-      ),
-      
-      iconTheme: const IconThemeData(
-        color: artDecoTeal, // Dark Icons
-        size: 24,
-      ),
-      
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        iconTheme: const IconThemeData(color: artDecoTeal),
-        titleTextStyle: GoogleFonts.manrope(
-          color: artDecoTeal,
-          fontSize: 24,
-          fontWeight: FontWeight.w600, // Semibold
-          letterSpacing: 0.5, // Reduced letter spacing for sans-serif
-        ),
-      ),
-      
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: Colors.transparent,
-        selectedItemColor: artDecoTeal, // Dark Teal for active
-        unselectedItemColor: Colors.grey, // Grey for inactive
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
-      ),
-      
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: artDecoGold, // CTA
-          foregroundColor: Colors.black, // High contrast on Gold
-          elevation: 4, // Extruded look
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4), // Sharp corners
-          ),
-          textStyle: GoogleFonts.manrope(
-            fontWeight: FontWeight.w600, // Semibold
-            letterSpacing: 0.5,
-          ),
-        ),
-      ),
-      
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: artDecoGold,
-        foregroundColor: Colors.black,
-      ),
-      
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: artDecoTeal, // Links/Text Buttons
-        ),
-      ),
-    );
-  }
-  // Dark Glass Theme (Dark Art Deco + Glassmorphism)
-  static ThemeData get glassThemeDark {
-    return ThemeData(
-      brightness: Brightness.dark, // Dark Mode
-      primaryColor: artDecoGold,
-      scaffoldBackgroundColor: Colors.transparent,
-      useMaterial3: true,
-      
-      colorScheme: const ColorScheme.dark( // Dark Scheme
-        primary: artDecoGold, // CTA / Primary Action
-        onPrimary: Colors.black, // Low contrast text on Gold
-        secondary: artDecoTeal, // Secondary
-        onSecondary: Colors.white,
-        tertiary: artDecoTealLight,
-        error: Color(0xFFCF6679),
-        surface: Colors.transparent,
-      ),
-      
-      textTheme: TextTheme(
-        displayLarge: GoogleFonts.manrope(
-          fontSize: 48,
-          fontWeight: FontWeight.w600, // Semibold
-          color: artDecoGold, // Gold Text
-          letterSpacing: -1.0,
-        ),
-        displayMedium: GoogleFonts.manrope(
-          fontSize: 32,
-          fontWeight: FontWeight.w600, // Semibold
-          color: artDecoGold, // Gold Text
+          fontWeight: FontWeight.w600,
+          color: lightTextPrimary,
         ),
         headlineMedium: GoogleFonts.manrope(
           fontSize: 22,
-          fontWeight: FontWeight.w600, // Semibold
-          color: artDecoGold, // Gold Text
+          fontWeight: FontWeight.w600,
+          color: lightTextPrimary,
         ),
         bodyLarge: GoogleFonts.lato(
           fontSize: 16,
-          fontWeight: FontWeight.w400, // Regular
-          color: artDecoCream, // Readable Cream
+          fontWeight: FontWeight.w400,
+          color: lightTextPrimary,
         ),
         bodyMedium: GoogleFonts.lato(
           fontSize: 15,
-          fontWeight: FontWeight.w400, // Regular
-          color: artDecoCream, // Readable Cream
+          fontWeight: FontWeight.w400,
+          color: lightTextSecondary,
         ),
         labelSmall: GoogleFonts.lato(
           fontSize: 12,
-          fontWeight: FontWeight.w400, // Regular
-          color: artDecoGoldLight,
+          fontWeight: FontWeight.w500,
+          color: lightTextSecondary,
         ),
       ),
       
       iconTheme: const IconThemeData(
-        color: artDecoGold, // Gold Icon
+        color: lightTextPrimary,
         size: 24,
       ),
       
@@ -218,101 +121,131 @@ class AppTheme {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        iconTheme: const IconThemeData(color: artDecoGold),
+        iconTheme: const IconThemeData(color: lightTextPrimary),
         titleTextStyle: GoogleFonts.manrope(
-          color: artDecoGold,
+          color: lightTextPrimary,
           fontSize: 24,
-          fontWeight: FontWeight.w600, // Semibold
+          fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
         ),
       ),
       
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Colors.black.withValues(alpha: 0.5), // Semi-transparent black
-        selectedItemColor: artDecoGold, 
-        unselectedItemColor: Colors.white54,
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Colors.transparent,
+        selectedItemColor: lightPrimary,
+        unselectedItemColor: lightTextSecondary,
         type: BottomNavigationBarType.fixed,
         elevation: 0,
       ),
       
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: artDecoGold, 
-          foregroundColor: Colors.black,
+          backgroundColor: lightPrimary, 
+          foregroundColor: Colors.white,
           elevation: 4,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(16), // Soft corners
           ),
           textStyle: GoogleFonts.manrope(
-            fontWeight: FontWeight.w600, // Semibold
+            fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
           ),
-        ),
-      ),
-      
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: artDecoGold,
-        foregroundColor: Colors.black,
-      ),
-      
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: artDecoGold,
         ),
       ),
     );
   }
 
-  static const Color textPrimary = artDecoTeal;
-
-  // Brand Palette
-  static const Color brandPrimary = artDecoGold;
-  static const Color brandBackground = Color(0xFFEDEDED);
-  static const Color textGrey = Color(0xFF999999);
-  static const Color brandWhite = Colors.white;
-
-  // Light Theme
-  static ThemeData get lightTheme {
+  // Glass Theme - Dark
+  static ThemeData get glassThemeDark {
     return ThemeData(
-      brightness: Brightness.light,
-      primaryColor: brandPrimary,
-      scaffoldBackgroundColor: brandBackground,
-      fontFamily: 'Lato',
+      brightness: Brightness.dark,
+      primaryColor: darkPrimary,
+      scaffoldBackgroundColor: Colors.transparent,
       useMaterial3: true,
       
-      colorScheme: const ColorScheme.light(
-        primary: brandPrimary,
-        secondary: brandPrimary,
-
-        surface: brandBackground,
+      colorScheme: const ColorScheme.dark(
+        primary: darkPrimary,
+        onPrimary: Colors.white,
+        secondary: darkSecondary,
+        onSecondary: Colors.black,
+        surface: Colors.transparent,
+        error: error,
+        outline: darkBorder, // For borders
       ),
       
-      appBarTheme: const AppBarTheme(
-        backgroundColor: brandBackground,
+      textTheme: TextTheme(
+        displayLarge: GoogleFonts.manrope(
+          fontSize: 48,
+          fontWeight: FontWeight.w600,
+          color: darkTextPrimary,
+          letterSpacing: -1.0,
+        ),
+        displayMedium: GoogleFonts.manrope(
+          fontSize: 32,
+          fontWeight: FontWeight.w600,
+          color: darkTextPrimary,
+        ),
+        headlineMedium: GoogleFonts.manrope(
+          fontSize: 22,
+          fontWeight: FontWeight.w600,
+          color: darkTextPrimary,
+        ),
+        bodyLarge: GoogleFonts.lato(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: darkTextPrimary,
+        ),
+        bodyMedium: GoogleFonts.lato(
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
+          color: darkTextSecondary,
+        ),
+        labelSmall: GoogleFonts.lato(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          color: darkTextSecondary,
+        ),
+      ),
+      
+      iconTheme: const IconThemeData(
+        color: darkTextPrimary,
+        size: 24,
+      ),
+      
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.black),
-        titleTextStyle: TextStyle(
-          color: Colors.black,
-          fontSize: 18,
+        iconTheme: const IconThemeData(color: darkTextPrimary),
+        titleTextStyle: GoogleFonts.manrope(
+          color: darkTextPrimary,
+          fontSize: 24,
           fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
         ),
       ),
       
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: brandWhite,
-        selectedItemColor: brandPrimary,
-        unselectedItemColor: textGrey,
+        backgroundColor: Colors.transparent,
+        selectedItemColor: darkPrimary,
+        unselectedItemColor: darkTextSecondary,
         type: BottomNavigationBarType.fixed,
         elevation: 0,
       ),
       
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
-        headlineMedium: TextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.w600), // Bumped 20->22
-        bodyLarge: TextStyle(color: Colors.black, fontSize: 16), // Keep 16
-        bodyMedium: TextStyle(color: Colors.black87, fontSize: 15), // Bumped 14->15
-        labelSmall: TextStyle(color: textGrey, fontSize: 12), // Bumped 10->12 for accessibility
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: darkPrimary, 
+          foregroundColor: Colors.white,
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          textStyle: GoogleFonts.manrope(
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
+          ),
+        ),
       ),
     );
   }

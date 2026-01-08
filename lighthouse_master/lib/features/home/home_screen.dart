@@ -4,6 +4,7 @@ import '../../presentation/providers/theme_provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../theme/app_theme.dart';
 import '../../presentation/widgets/glass_container.dart';
+import '../../presentation/widgets/app_logo.dart';
 import '../../presentation/widgets/unified_search_bar.dart';
 import 'widgets/quick_action_grid.dart';
 
@@ -35,14 +36,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               // Header
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Image.asset(
-                    Theme.of(context).brightness == Brightness.dark 
-                        ? 'assets/images/appy_app_logo_dark.png' 
-                        : 'assets/images/appy_app_logo.png',
-                    height: 104, // Increased by 30% (was 80)
-                    fit: BoxFit.contain,
-                  ),
+                  padding: const EdgeInsets.only(top: 12.0, bottom: 24.0), // Less top padding to move up
+                  child: AppLogo(size: 110), // Increased size (80 * 1.375 = 110)
                 ),
               ),
               

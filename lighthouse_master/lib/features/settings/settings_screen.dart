@@ -54,7 +54,7 @@ class SettingsScreen extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(width: 16),
-                        const Expanded(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -66,7 +66,7 @@ class SettingsScreen extends ConsumerWidget {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              SizedBox(height: 4),
+                              const SizedBox(height: 4),
                               Text(
                                 'Unlock all features',
                                 style: TextStyle(
@@ -154,9 +154,7 @@ class SettingsScreen extends ConsumerWidget {
               ],
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildSectionTitle(BuildContext context, String title) {
@@ -192,7 +190,7 @@ class SettingsScreen extends ConsumerWidget {
           Expanded(
             child: Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Theme.of(context).textTheme.bodyLarge?.color,
                 fontSize: 16,
               ),

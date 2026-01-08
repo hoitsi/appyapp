@@ -8,6 +8,11 @@ class ContactsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    // QR Button Color Logic
+    final qrColor = isDark ? Theme.of(context).primaryColor : AppTheme.artDecoTeal;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -33,7 +38,7 @@ class ContactsScreen extends StatelessWidget {
               children: [
                 Expanded(child: _buildActionButton(context, 'Add Friend', Icons.person_add, AppTheme.artDecoGold)), // Gold CTA
                 const SizedBox(width: 12),
-                Expanded(child: _buildActionButton(context, 'QR Code', Icons.qr_code, AppTheme.artDecoTeal)), // Teal Secondary
+                Expanded(child: _buildActionButton(context, 'QR Code', Icons.qr_code, qrColor)), // Adaptive Color
               ],
             ),
           ),
@@ -112,6 +117,11 @@ class ContactsScreen extends StatelessWidget {
   }
 
   Widget _buildContactItem(BuildContext context, String name, String status) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // Avatar Logic
+    final avatarBg = isDark ? Colors.white.withValues(alpha: 0.15) : AppTheme.artDecoTeal.withValues(alpha: 0.1);
+    final avatarText = isDark ? Colors.white : AppTheme.artDecoTeal;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: GlassContainer(
@@ -126,8 +136,8 @@ class ContactsScreen extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: AppTheme.artDecoTeal.withValues(alpha: 0.1),
-              child: Text(name[0], style: const TextStyle(color: AppTheme.artDecoTeal, fontWeight: FontWeight.bold)),
+              backgroundColor: avatarBg,
+              child: Text(name[0], style: TextStyle(color: avatarText, fontWeight: FontWeight.bold)),
             ),
             const SizedBox(width: 16),
             Column(
