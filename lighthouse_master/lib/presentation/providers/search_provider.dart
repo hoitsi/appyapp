@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/repositories/app_repository.dart';
 import '../../data/repositories/mock_external_search_repository.dart';
-import '../../domain/entities/app_model.dart';
-import '../../domain/entities/search_result_item.dart';
 import '../../domain/repositories/external_search_repository.dart';
 
 // State Helper

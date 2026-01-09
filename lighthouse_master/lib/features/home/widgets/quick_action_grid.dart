@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../theme/app_theme.dart';
 import '../../../../presentation/widgets/glass_container.dart';
 
@@ -12,6 +13,7 @@ class QuickActionGrid extends StatelessWidget {
       color1: Color(0xFF07C160), 
       color2: Color(0xFF05A050),
       imagePath: 'assets/images/chat_card_bg.png',
+      route: '/chats',
     ),
     QuickActionItem(
       icon: Icons.group, 
@@ -19,6 +21,7 @@ class QuickActionGrid extends StatelessWidget {
       color1: Colors.blue, 
       color2: Colors.blueAccent, 
       imagePath: 'assets/images/contact_card_bg.png', // Added Image
+      route: '/contacts',
     ),
     QuickActionItem(
       icon: Icons.explore, 
@@ -26,6 +29,7 @@ class QuickActionGrid extends StatelessWidget {
       color1: Colors.purple, 
       color2: Colors.deepPurple,
       imagePath: 'assets/images/discover_card_bg.png', // Added Image
+      route: '/discover',
     ),
     QuickActionItem(
       icon: Icons.camera_alt, 
@@ -153,13 +157,17 @@ class QuickActionGrid extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-             ScaffoldMessenger.of(context).showSnackBar(
-               SnackBar(
-                 content: Text("Opening ${item.label}..."),
-                 duration: const Duration(seconds: 1),
-                 backgroundColor: AppTheme.brandPrimary,
-               )
-             );
+             if (item.route != null) {
+               GoRouter.of(context).go(item.route!);
+             } else {
+               ScaffoldMessenger.of(context).showSnackBar(
+                 SnackBar(
+                   content: Text("${item.label} coming soon!"),
+                   duration: const Duration(seconds: 1),
+                   backgroundColor: AppTheme.brandPrimary,
+                 )
+               );
+             }
           },
           borderRadius: BorderRadius.circular(12),
           child: hasImage ? _buildContentWithImage(item) : _buildStandardContent(context, item),
@@ -244,6 +252,7 @@ class QuickActionItem {
   final Color color1;
   final Color color2;
   final String? imagePath;
+  final String? route;
 
   const QuickActionItem({
     required this.icon,
@@ -251,5 +260,6 @@ class QuickActionItem {
     required this.color1,
     required this.color2,
     this.imagePath,
+    this.route,
   });
 }
